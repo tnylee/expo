@@ -167,7 +167,7 @@ public class PushNotificationHelper {
 
         // Create notification object
         boolean isMultiple = mode == Mode.COLLAPSE && unreadNotifications.length() > 1;
-        final ReceivedNotificationEvent notificationEvent = new ReceivedNotificationEvent(experienceKey.getStableLegacyId(), body, notificationId, isMultiple, true);
+        final ReceivedNotificationEvent notificationEvent = new ReceivedNotificationEvent(experienceKey.getScopeKey(), body, notificationId, isMultiple, true);
 
         // Create pending intent
         Intent intent = new Intent(context, KernelConstants.MAIN_ACTIVITY_CLASS);

@@ -17,7 +17,7 @@ public class ScopedAmplitudeModule extends AmplitudeModule {
     try {
       mStableExperienceLegacyId = experienceKey.getUrlEncodedStableLegacyId();
     } catch (UnsupportedEncodingException e) {
-      mStableExperienceLegacyId = Integer.toString(experienceKey.hashCode());
+      mStableExperienceLegacyId = Integer.toString(experienceKey.getStableLegacyId().hashCode());
     }
   }
 
