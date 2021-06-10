@@ -18,6 +18,7 @@ import host.exp.exponent.ABIVersion;
 import host.exp.exponent.Constants;
 import host.exp.exponent.analytics.EXL;
 import host.exp.exponent.kernel.ExperienceKey;
+import host.exp.exponent.notifications.NotificationConstants;
 import host.exp.exponent.notifications.PushNotificationHelper;
 import host.exp.exponent.notifications.model.ScopedNotificationRequest;
 import host.exp.exponent.storage.ExperienceDBObject;
@@ -44,7 +45,7 @@ public class ExpoFirebaseMessagingDelegate extends FirebaseMessagingDelegate {
       return;
     }
 
-    ExperienceDBObject experienceDBObject = ExponentDB.experienceScopeKeyToExperienceSync(remoteMessage.getData().get("experienceId"));
+    ExperienceDBObject experienceDBObject = ExponentDB.experienceScopeKeyToExperienceSync(remoteMessage.getData().get(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY));
     if (experienceDBObject != null) {
       try {
         JSONObject manifest = new JSONObject(experienceDBObject.manifest);
@@ -74,7 +75,7 @@ public class ExpoFirebaseMessagingDelegate extends FirebaseMessagingDelegate {
         EXL.e("expo-notifications", "Couldn't parse the manifest.");
       }
     } else {
-      EXL.e("expo-notifications", "No experience found for scope key " + remoteMessage.getData().get("experienceId"));
+      EXL.e("expo-notifications", "No experience found for scope key " + remoteMessage.getData().get(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY));
     }
   }
 
@@ -83,7 +84,7 @@ public class ExpoFirebaseMessagingDelegate extends FirebaseMessagingDelegate {
   }
 
   private void dispatchToLegacyNotificationModule(RemoteMessage remoteMessage) {
-    PushNotificationHelper.getInstance().onMessageReceived(getContext(), remoteMessage.getData().get("experienceId"), remoteMessage.getData().get("channelId"), remoteMessage.getData().get("message"), remoteMessage.getData().get("body"), remoteMessage.getData().get("title"), remoteMessage.getData().get("categoryId"));
+    PushNotificationHelper.getInstance().onMessageReceived(getContext(), remoteMessage.getData().get(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY), remoteMessage.getData().get("channelId"), remoteMessage.getData().get("message"), remoteMessage.getData().get("body"), remoteMessage.getData().get("title"), remoteMessage.getData().get("categoryId"));
   }
 
   @NonNull
@@ -93,6 +94,6 @@ public class ExpoFirebaseMessagingDelegate extends FirebaseMessagingDelegate {
       return super.createNotificationRequest(identifier, content, notificationTrigger);
     }
     Map<String, String> data = notificationTrigger.getRemoteMessage().getData();
-    return new ScopedNotificationRequest(identifier, content, notificationTrigger, data.get("experienceId"));
+    return new ScopedNotificationRequest(identifier, content, notificationTrigger, data.get(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY));
   }
 }

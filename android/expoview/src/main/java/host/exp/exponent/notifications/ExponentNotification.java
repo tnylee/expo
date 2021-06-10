@@ -39,7 +39,15 @@ public class ExponentNotification {
       if (body == null) {
         body = object.optString(NotificationConstants.NOTIFICATION_MESSAGE_KEY, null);
       }
-      return new ExponentNotification(object.getString(NotificationConstants.NOTIFICATION_EXPERIENCE_ID_KEY), body, object.getInt(NotificationConstants.NOTIFICATION_ID_KEY), object.getBoolean(NotificationConstants.NOTIFICATION_IS_MULTIPLE_KEY), object.getBoolean(NotificationConstants.NOTIFICATION_REMOTE_KEY));
+      return new ExponentNotification(
+              object.has(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY)
+                      ? object.optString(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY)
+                      : object.getString(NotificationConstants.NOTIFICATION_EXPERIENCE_ID_KEY),
+              body,
+              object.getInt(NotificationConstants.NOTIFICATION_ID_KEY),
+              object.getBoolean(NotificationConstants.NOTIFICATION_IS_MULTIPLE_KEY),
+              object.getBoolean(NotificationConstants.NOTIFICATION_REMOTE_KEY)
+      );
     } catch (JSONException e) {
       EXL.e(TAG, e.toString());
       return null;
@@ -50,6 +58,7 @@ public class ExponentNotification {
     JSONObject notification = new JSONObject();
     try {
       notification.put(NotificationConstants.NOTIFICATION_EXPERIENCE_ID_KEY, experienceScopeKey);
+      notification.put(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY, experienceScopeKey);
       if (origin != null) {
         notification.put(NotificationConstants.NOTIFICATION_ORIGIN_KEY, origin);
       }

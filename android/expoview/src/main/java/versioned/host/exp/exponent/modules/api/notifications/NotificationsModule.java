@@ -209,8 +209,8 @@ public class NotificationsModule extends ReactContextBaseJavaModule {
     }
 
     details.put("data", hashMap);
-
-    details.put("experienceId", mExperienceKey.getScopeKey());
+    details.put(NotificationConstants.NOTIFICATION_EXPERIENCE_ID_KEY, mExperienceKey.getScopeKey());
+    details.put(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY, mExperienceKey.getScopeKey());
 
     if (legacyChannelData != null) {
       String channelId = data.getString("channelId");
@@ -352,7 +352,8 @@ public class NotificationsModule extends ReactContextBaseJavaModule {
     details.put("data", hashMap);
 
     String experienceScopeKey = mExperienceKey.getScopeKey();
-    details.put("experienceId", experienceScopeKey);
+    details.put(NotificationConstants.NOTIFICATION_EXPERIENCE_ID_KEY, experienceScopeKey);
+    details.put(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY, experienceScopeKey);
 
     IntervalSchedulerModel intervalSchedulerModel = new IntervalSchedulerModel();
     intervalSchedulerModel.setExperienceScopeKey(experienceScopeKey);
@@ -389,7 +390,8 @@ public class NotificationsModule extends ReactContextBaseJavaModule {
     details.put("data", hashMap);
 
     String experienceScopeKey = mExperienceKey.getScopeKey();
-    details.put("experienceId", experienceScopeKey);
+    details.put(NotificationConstants.NOTIFICATION_EXPERIENCE_ID_KEY, experienceScopeKey);
+    details.put(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY, experienceScopeKey);
 
     Cron cron = createCronInstance(options);
 

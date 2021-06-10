@@ -372,7 +372,9 @@ public class NotificationHelper {
           final ExponentManifest exponentManifest,
           final Listener listener) {
     final ExponentNotificationManager manager = new ExponentNotificationManager(context);
-    final String experienceScopeKey = (String) details.get("experienceId");
+
+    String notificationScopeKey = (String) details.get(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY);
+    final String experienceScopeKey = notificationScopeKey != null ? notificationScopeKey : (String) details.get(NotificationConstants.NOTIFICATION_EXPERIENCE_ID_KEY);
 
     ExponentDB.experienceScopeKeyToExperience(experienceScopeKey, new ExponentDB.ExperienceResultListener() {
       @Override
@@ -576,7 +578,8 @@ public class NotificationHelper {
 
     HashMap<String, java.io.Serializable> details = new HashMap<>();
     details.put("data", data);
-    details.put("experienceId", experienceKey.getScopeKey());
+    details.put(NotificationConstants.NOTIFICATION_EXPERIENCE_ID_KEY, experienceKey.getScopeKey());
+    details.put(NotificationConstants.NOTIFICATION_EXPERIENCE_SCOPE_KEY_KEY, experienceKey.getScopeKey());
 
     long time = 0;
 

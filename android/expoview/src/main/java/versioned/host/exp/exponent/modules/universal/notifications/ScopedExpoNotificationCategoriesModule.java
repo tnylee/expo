@@ -24,9 +24,9 @@ import static expo.modules.notifications.service.NotificationsService.SUCCESS_CO
 public class ScopedExpoNotificationCategoriesModule extends ExpoNotificationCategoriesModule {
   private final ExperienceKey mExperienceKey;
 
-  public ScopedExpoNotificationCategoriesModule(Context context, @NonNull ExperienceKey experienceId) {
+  public ScopedExpoNotificationCategoriesModule(Context context, @NonNull ExperienceKey experienceKey) {
     super(context);
-    mExperienceKey = experienceId;
+    mExperienceKey = experienceKey;
   }
 
   @Override

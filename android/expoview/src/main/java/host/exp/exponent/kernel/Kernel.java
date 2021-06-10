@@ -587,7 +587,7 @@ public class Kernel extends KernelInterface {
 
     ExperienceDBObject experience = ExponentDB.experienceScopeKeyToExperienceSync(experienceScopeKeyString);
     if (experience == null) {
-      Log.w("expo-notifications", "Couldn't find experience from experienceId.");
+      Log.w("expo-notifications", "Couldn't find experience from scopeKey: " + experienceScopeKeyString);
       return false;
     }
 

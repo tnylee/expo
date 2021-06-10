@@ -13,6 +13,7 @@ import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransacti
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
 import expo.modules.updates.manifest.raw.RawManifest;
@@ -26,7 +27,6 @@ public class ExponentDB {
 
   public interface ExperienceResultListener {
     void onSuccess(ExperienceDBObject experience);
-
     void onFailure();
   }
 
@@ -51,20 +51,17 @@ public class ExponentDB {
         .from(ExperienceDBObject.class)
         .where(ExperienceDBObject_Table.id.is(experienceScopeKey))
         .async()
-        .queryResultCallback(new QueryTransaction.QueryResultCallback<ExperienceDBObject>() {
-          @Override
-          public void onQueryResult(QueryTransaction<ExperienceDBObject> transaction, @NonNull CursorResult<ExperienceDBObject> tResult) {
-            if (tResult.getCount() == 0) {
-              listener.onFailure();
-            } else {
-              listener.onSuccess(tResult.getItem(0));
-            }
+        .querySingleResultCallback((transaction, experienceDBObject) -> {
+          if (experienceDBObject == null) {
+            listener.onFailure();
+          } else {
+            listener.onSuccess(experienceDBObject);
           }
         }).execute();
   }
 
   @WorkerThread
-  public static ExperienceDBObject experienceScopeKeyToExperienceSync(String experienceScopeKey) {
+  public static @Nullable ExperienceDBObject experienceScopeKeyToExperienceSync(String experienceScopeKey) {
     return SQLite.select()
       .from(ExperienceDBObject.class)
       .where(ExperienceDBObject_Table.id.is(experienceScopeKey))
